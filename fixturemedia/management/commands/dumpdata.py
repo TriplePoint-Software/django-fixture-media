@@ -65,15 +65,15 @@ class Command(django.core.management.commands.dumpdata.Command):
     def handle(self, *app_labels, **options):
         ser_format = options.get('format')
 
-        outputname = options.get('output')
-        if outputname is None:
+        output_filename = options.get('output')
+        if output_filename is None:
             raise CommandError('No --output specified (this is a required option)')
-        self.target_dir = join(dirname(abspath(outputname)), 'media')
+        self.target_dir = join(dirname(abspath(output_filename)), 'media')
 
         for modelclass in models_with_filefields():
             pre_dump.connect(self.save_images_for_signal, sender=modelclass)
 
         self.set_up_serializer(ser_format)
 
-        with File(open(outputname, 'w')) as self.stdout:
+        with File(open(output_filename, 'w')) as self.stdout:
             super(Command, self).handle(*app_labels, **options)
