@@ -18,9 +18,9 @@ The management commands are named `loaddata` and `dumpdata`, overriding Django's
 
 ### Dumping fixtures ###
 
-When you use `dumpdata` to dump a fixture with media files, you necessarily need to write the fixture to disk, so that media files can be written with it. The `dumpdata` command has a required `--outfile` argument for specifying where on disk to write the file to.
+When you use `dumpdata` to dump a fixture with media files, you necessarily need to write the fixture to disk, so that media files can be written with it. The `dumpdata` command has a required `--output` argument for specifying where on disk to write the file to.
 
-    $ ./manage.py dumpdata --outfile myapp/fixtures/archive.json
+    $ ./manage.py dumpdata --output myapp/fixtures/archive.json
 
 Any media files referenced by `FileField` fields (including subclasses like `ImageField`) in the dumped models will be written to a neighboring `media/` directory.
 
