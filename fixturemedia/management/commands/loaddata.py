@@ -1,4 +1,5 @@
 from os.path import dirname, exists, isdir, join, relpath
+import sys
 
 from django.conf import settings
 import django.core.management.commands.loaddata
@@ -57,9 +58,12 @@ class Command(django.core.management.commands.loaddata.Command):
                     continue
 
     def handle(self, *fixture_labels, **options):
-        # Hook up pre_save events for all the apps' models that have FileFields.
-        for modelclass in models_with_filefields():
-            signals.pre_save.connect(self.load_images_for_signal, sender=modelclass)
+        if 'loaddata' in sys.argv:
+            # Hook up pre_save events for all the apps' models that have FileFields.
+            # Only for loaddata command called from
+            # Temporary
+            for modelclass in models_with_filefields():
+                signals.pre_save.connect(self.load_images_for_signal, sender=modelclass)
 
         fixture_paths = self.find_fixture_paths()
         fixture_paths = (join(path, 'media') for path in fixture_paths)
